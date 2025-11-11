@@ -15,7 +15,8 @@
 
 - **File:** `godcode-0.1.0.vsix` (151MB)
 - **Location:** `/Users/agentsy/god-continues/extensions/vscode/build/godcode-0.1.0.vsix`
-- **Created:** Nov 10, 2025 22:14
+- **Created:** Nov 10, 2025 22:17 (latest)
+- **Build:** c4707c3c1
 
 ## 🚀 Installation Steps
 
