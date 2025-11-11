@@ -406,10 +406,8 @@ void (async () => {
   console.log(`[info] Copied ${NODE_MODULES_TO_COPY.join(", ")}`);
 
   // Manually copy lancedb .node binary (ncp sometimes misses it)
-  // Path Traversal Protection: Sanitize path components before constructing paths
-  const lancedbModuleName = sanitizePathComponent(
-    `@lancedb/vectordb-${target}${isWinTarget ? "-msvc" : ""}${isLinuxTarget ? "-gnu" : ""}`,
-  );
+  // Path Traversal Protection: target, os, arch are already sanitized above
+  const lancedbModuleName = `@lancedb/vectordb-${target}${isWinTarget ? "-msvc" : ""}${isLinuxTarget ? "-gnu" : ""}`;
   const lancedbBinarySource = `node_modules/${lancedbModuleName}/index.node`;
   const lancedbBinaryDest = `out/node_modules/${lancedbModuleName}/index.node`;
 
