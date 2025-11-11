@@ -373,6 +373,26 @@ void (async () => {
 
   console.log(`[info] Copied ${NODE_MODULES_TO_COPY.join(", ")}`);
 
+  // Manually copy lancedb .node binary (ncp sometimes misses it)
+  const lancedbBinarySource = `node_modules/@lancedb/vectordb-${target}${isWinTarget ? "-msvc" : ""}${isLinuxTarget ? "-gnu" : ""}/index.node`;
+  const lancedbBinaryDest = `out/node_modules/@lancedb/vectordb-${target}${isWinTarget ? "-msvc" : ""}${isLinuxTarget ? "-gnu" : ""}/index.node`;
+  if (fs.existsSync(lancedbBinarySource)) {
+    const stats = fs.statSync(lancedbBinarySource);
+    console.log(`[info] Source lancedb binary size: ${(stats.size / 1024 / 1024).toFixed(2)}MB`);
+    
+    // Use copyFileSync instead of cpSync for large binary files
+    fs.copyFileSync(lancedbBinarySource, lancedbBinaryDest);
+    
+    const destStats = fs.statSync(lancedbBinaryDest);
+    console.log(`[info] Manually copied lancedb binary: ${lancedbBinaryDest} (${(destStats.size / 1024 / 1024).toFixed(2)}MB)`);
+    
+    if (destStats.size === 0) {
+      throw new Error(`Failed to copy lancedb binary - destination file is empty!`);
+    }
+  } else {
+    console.warn(`[warn] LanceDB binary not found at: ${lancedbBinarySource}`);
+  }
+
   // Copy over any worker files
   fs.cpSync(
     "node_modules/jsdom/lib/jsdom/living/xhr/xhr-sync-worker.js",
