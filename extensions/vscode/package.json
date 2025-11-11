@@ -2,7 +2,7 @@
   "name": "godcode",
   "icon": "media/icon.png",
   "author": "GodCode Dev, Inc",
-  "version": "1.3.26",
+  "version": "0.1.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/godcode-ai/godcode"
