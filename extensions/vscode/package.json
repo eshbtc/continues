@@ -54,7 +54,7 @@
   "activationEvents": [
     "onUri",
     "onStartupFinished",
-    "onView:continueGUIView"
+    "onView:godcode.continueGUIView"
   ],
   "main": "./out/extension.js",
   "contributes": {
@@ -566,17 +566,17 @@
         {
           "command": "continue.newSession",
           "group": "navigation@1",
-          "when": "view == continue.continueGUIView"
+          "when": "view == godcode.continueGUIView"
         },
         {
           "command": "continue.viewHistory",
           "group": "navigation@2",
-          "when": "view == continue.continueGUIView"
+          "when": "view == godcode.continueGUIView"
         },
         {
           "command": "continue.openConfigPage",
           "group": "navigation@4",
-          "when": "view == continue.continueGUIView"
+          "when": "view == godcode.continueGUIView"
         },
         {
           "command": "continue.clearConsole",
@@ -588,12 +588,12 @@
         {
           "command": "continue.newSession",
           "group": "navigation@1",
-          "when": "activeWebviewPanelId == continue.continueGUIView"
+          "when": "activeWebviewPanelId == godcode.continueGUIView"
         },
         {
           "command": "continue.viewHistory",
           "group": "navigation@2",
-          "when": "activeWebviewPanelId == continue.continueGUIView"
+          "when": "activeWebviewPanelId == godcode.continueGUIView"
         }
       ],
       "terminal/context": [
@@ -623,7 +623,7 @@
       "continue": [
         {
           "type": "webview",
-          "id": "continue.continueGUIView",
+          "id": "godcode.continueGUIView",
           "name": "Continue",
           "icon": "media/sidebar-icon.png",
           "visibility": "visible"
@@ -632,7 +632,7 @@
       "continueConsole": [
         {
           "type": "webview",
-          "id": "continue.continueConsoleView",
+          "id": "godcode.continueConsoleView",
           "name": "Continue Console",
           "icon": "$(window)",
           "visibility": "visible",
