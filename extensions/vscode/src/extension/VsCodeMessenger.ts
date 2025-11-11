@@ -110,7 +110,7 @@ export class VsCodeMessenger {
     });
 
     this.onWebview("toggleDevTools", (msg) => {
-      vscode.commands.executeCommand("continue.viewLogs");
+      vscode.commands.executeCommand("godcode.viewLogs");
     });
 
     this.onWebview("reloadWindow", (msg) => {
@@ -120,7 +120,7 @@ export class VsCodeMessenger {
       vscode.commands.executeCommand("workbench.action.focusActiveEditorGroup");
     });
     this.onWebview("toggleFullScreen", (msg) => {
-      vscode.commands.executeCommand("continue.openInNewWindow");
+      vscode.commands.executeCommand("godcode.openInNewWindow");
     });
 
     this.onWebview("acceptDiff", async ({ data: { filepath, streamId } }) => {

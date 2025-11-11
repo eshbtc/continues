@@ -55,7 +55,7 @@ let fullScreenPanel: vscode.WebviewPanel | undefined;
 function getFullScreenTab() {
   const tabs = vscode.window.tabGroups.all.flatMap((tabGroup) => tabGroup.tabs);
   return tabs.find((tab) =>
-    (tab.input as any)?.viewType?.endsWith("continue.continueGUIView"),
+    (tab.input as any)?.viewType?.endsWith("godcode.continueGUIView"),
   );
 }
 
@@ -78,7 +78,7 @@ function focusGUI() {
     fullScreenPanel?.reveal();
   } else {
     // focus sidebar
-    vscode.commands.executeCommand("continue.continueGUIView.focus");
+    vscode.commands.executeCommand("godcode.continueGUIView.focus");
     // vscode.commands.executeCommand("workbench.action.focusAuxiliaryBar");
   }
 }
@@ -226,12 +226,12 @@ const getCommandsMap: (
 
       addCodeToContextFromRange(range, sidebar.webviewProtocol, prompt);
 
-      vscode.commands.executeCommand("continue.continueGUIView.focus");
+      vscode.commands.executeCommand("godcode.continueGUIView.focus");
     },
     // Passthrough for telemetry purposes
     "continue.defaultQuickAction": async (args: QuickEditShowParams) => {
       captureCommandTelemetry("defaultQuickAction");
-      vscode.commands.executeCommand("continue.focusEdit", args);
+      vscode.commands.executeCommand("godcode.focusEdit", args);
     },
     "continue.customQuickActionSendToChat": async (
       prompt: string,
@@ -241,7 +241,7 @@ const getCommandsMap: (
 
       addCodeToContextFromRange(range, sidebar.webviewProtocol, prompt);
 
-      vscode.commands.executeCommand("continue.continueGUIView.focus");
+      vscode.commands.executeCommand("godcode.continueGUIView.focus");
     },
     "continue.customQuickActionStreamInlineEdit": async (
       prompt: string,
@@ -402,7 +402,7 @@ const getCommandsMap: (
 
       const terminalContents = await ide.getTerminalContents();
 
-      vscode.commands.executeCommand("continue.continueGUIView.focus");
+      vscode.commands.executeCommand("godcode.continueGUIView.focus");
 
       sidebar.webviewProtocol?.request("userInput", {
         input: `I got the following error, can you please help explain how to fix it?\n\n${terminalContents.trim()}`,
@@ -418,7 +418,7 @@ const getCommandsMap: (
     "continue.addModel": () => {
       captureCommandTelemetry("addModel");
 
-      vscode.commands.executeCommand("continue.continueGUIView.focus");
+      vscode.commands.executeCommand("godcode.continueGUIView.focus");
       sidebar.webviewProtocol?.request("addModel", undefined);
     },
     "continue.newSession": () => {
@@ -462,7 +462,7 @@ const getCommandsMap: (
       }
     },
     "continue.viewHistory": () => {
-      vscode.commands.executeCommand("continue.navigateTo", "/history", true);
+      vscode.commands.executeCommand("godcode.navigateTo", "/history", true);
     },
     "continue.focusContinueSessionId": async (
       sessionId: string | undefined,
@@ -480,7 +480,7 @@ const getCommandsMap: (
       void sidebar.webviewProtocol.request("applyCodeFromChat", undefined);
     },
     "continue.openConfigPage": () => {
-      vscode.commands.executeCommand("continue.navigateTo", "/config", false);
+      vscode.commands.executeCommand("godcode.navigateTo", "/config", false);
     },
     "continue.selectFilesAsContext": async (
       firstUri: vscode.Uri,
@@ -490,7 +490,7 @@ const getCommandsMap: (
         throw new Error("No files were selected");
       }
 
-      vscode.commands.executeCommand("continue.continueGUIView.focus");
+      vscode.commands.executeCommand("godcode.continueGUIView.focus");
 
       for (const uri of uris) {
         // If it's a folder, add the entire folder contents recursively by using walkDir (to ignore ignored files)
@@ -673,11 +673,11 @@ const getCommandsMap: (
             });
           }
         } else if (selectedOption === "$(comment) Open chat") {
-          vscode.commands.executeCommand("continue.focusContinueInput");
+          vscode.commands.executeCommand("godcode.focusContinueInput");
         } else if (selectedOption === "$(screen-full) Open full screen chat") {
-          vscode.commands.executeCommand("continue.openInNewWindow");
+          vscode.commands.executeCommand("godcode.openInNewWindow");
         } else if (selectedOption === "$(gear) Open settings") {
-          vscode.commands.executeCommand("continue.navigateTo", "/config");
+          vscode.commands.executeCommand("godcode.navigateTo", "/config");
         }
 
         quickPick.dispose();
@@ -820,14 +820,14 @@ const getCommandsMap: (
       }
 
       // Clear the sidebar to prevent overwriting changes made in fullscreen
-      vscode.commands.executeCommand("continue.newSession");
+      vscode.commands.executeCommand("godcode.newSession");
 
       // Full screen not open - open it
       captureCommandTelemetry("openInNewWindow");
 
       // Create the full screen panel
       let panel = vscode.window.createWebviewPanel(
-        "continue.continueGUIView",
+        "godcode.continueGUIView",
         "Continue",
         vscode.ViewColumn.One,
         {
@@ -847,7 +847,7 @@ const getCommandsMap: (
       );
 
       const sessionLoader = panel.onDidChangeViewState(() => {
-        vscode.commands.executeCommand("continue.newSession");
+        vscode.commands.executeCommand("godcode.newSession");
         if (sessionId) {
           vscode.commands.executeCommand(
             "continue.focusContinueSessionId",
@@ -862,7 +862,7 @@ const getCommandsMap: (
       panel.onDidDispose(
         () => {
           sidebar.resetWebviewProtocolWebview();
-          vscode.commands.executeCommand("continue.focusContinueInput");
+          vscode.commands.executeCommand("godcode.focusContinueInput");
         },
         null,
         extensionContext.subscriptions,

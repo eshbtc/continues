@@ -563,7 +563,7 @@ export class VerticalDiffManager {
       this.enableDocumentChangeListener();
 
       if (abortController.signal.aborted) {
-        void vscode.commands.executeCommand("continue.rejectDiff");
+        void vscode.commands.executeCommand("godcode.rejectDiff");
       }
 
       const fileAfterEdit = `${prefix}${streamedLines.join("\n")}${suffix}`;

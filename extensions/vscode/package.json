@@ -153,232 +153,232 @@
     },
     "commands": [
       {
-        "command": "continue.applyCodeFromChat",
+        "command": "godcode.applyCodeFromChat",
         "category": "Continue",
         "title": "Apply code from chat",
         "group": "Continue"
       },
       {
-        "command": "continue.acceptDiff",
+        "command": "godcode.acceptDiff",
         "category": "Continue",
         "title": "Accept Diff",
         "group": "Continue"
       },
       {
-        "command": "continue.rejectDiff",
+        "command": "godcode.rejectDiff",
         "category": "Continue",
         "title": "Reject Diff",
         "group": "Continue",
         "icon": "$(stop)"
       },
       {
-        "command": "continue.acceptVerticalDiffBlock",
+        "command": "godcode.acceptVerticalDiffBlock",
         "category": "Continue",
         "title": "Accept Vertical Diff Block",
         "group": "Continue"
       },
       {
-        "command": "continue.rejectVerticalDiffBlock",
+        "command": "godcode.rejectVerticalDiffBlock",
         "category": "Continue",
         "title": "Reject Vertical Diff Block",
         "group": "Continue"
       },
       {
-        "command": "continue.focusEdit",
+        "command": "godcode.focusEdit",
         "category": "Continue",
         "title": "Add to Edit",
         "group": "Continue"
       },
       {
-        "command": "continue.focusContinueInput",
+        "command": "godcode.focusContinueInput",
         "category": "Continue",
         "title": "Add Highlighted Code to Context and Clear Chat",
         "group": "Continue"
       },
       {
-        "command": "continue.focusContinueInputWithoutClear",
+        "command": "godcode.focusContinueInputWithoutClear",
         "category": "Continue",
         "title": "Add to Chat",
         "group": "Continue"
       },
       {
-        "command": "continue.debugTerminal",
+        "command": "godcode.debugTerminal",
         "category": "Continue",
         "title": "Debug Terminal",
         "group": "Continue"
       },
       {
-        "command": "continue.exitEditMode",
+        "command": "godcode.exitEditMode",
         "category": "Continue",
         "title": "Exit Edit Mode",
         "group": "Continue"
       },
       {
-        "command": "continue.openConfigPage",
+        "command": "godcode.openConfigPage",
         "category": "Continue",
         "title": "Open Settings",
         "icon": "$(gear)",
         "group": "Continue"
       },
       {
-        "command": "continue.toggleTabAutocompleteEnabled",
+        "command": "godcode.toggleTabAutocompleteEnabled",
         "category": "Continue",
         "title": "Toggle Autocomplete Enabled",
         "group": "Continue"
       },
       {
-        "command": "continue.forceAutocomplete",
+        "command": "godcode.forceAutocomplete",
         "title": "Continue: Force Autocomplete",
         "category": "Continue"
       },
       {
-        "command": "continue.selectFilesAsContext",
+        "command": "godcode.selectFilesAsContext",
         "category": "Continue",
         "title": "Select Files as Context",
         "group": "Continue"
       },
       {
-        "command": "continue.newSession",
+        "command": "godcode.newSession",
         "category": "Continue",
         "title": "New Session",
         "icon": "$(add)",
         "group": "Continue"
       },
       {
-        "command": "continue.shareSession",
+        "command": "godcode.shareSession",
         "category": "Continue",
         "title": "Share Current Chat Session as Markdown",
         "group": "Continue"
       },
       {
-        "command": "continue.viewHistory",
+        "command": "godcode.viewHistory",
         "category": "Continue",
         "title": "View History",
         "icon": "$(history)",
         "group": "Continue"
       },
       {
-        "command": "continue.viewLogs",
+        "command": "godcode.viewLogs",
         "category": "Continue",
         "title": "View Logs",
         "group": "Continue"
       },
       {
-        "command": "continue.clearConsole",
+        "command": "godcode.clearConsole",
         "category": "Continue",
         "title": "Clear Console",
         "icon": "$(clear-all)",
         "group": "Continue"
       },
       {
-        "command": "continue.navigateTo",
+        "command": "godcode.navigateTo",
         "category": "Continue",
         "title": "Navigate to a path",
         "group": "Continue"
       },
       {
-        "command": "continue.writeCommentsForCode",
+        "command": "godcode.writeCommentsForCode",
         "category": "Continue",
         "title": "Write Comments for this Code",
         "group": "Continue"
       },
       {
-        "command": "continue.writeDocstringForCode",
+        "command": "godcode.writeDocstringForCode",
         "category": "Continue",
         "title": "Write a Docstring for this Code",
         "group": "Continue"
       },
       {
-        "command": "continue.fixCode",
+        "command": "godcode.fixCode",
         "category": "Continue",
         "title": "Fix this Code",
         "group": "Continue"
       },
       {
-        "command": "continue.optimizeCode",
+        "command": "godcode.optimizeCode",
         "category": "Continue",
         "title": "Optimize this Code",
         "group": "Continue"
       },
       {
-        "command": "continue.fixGrammar",
+        "command": "godcode.fixGrammar",
         "category": "Continue",
         "title": "Fix Grammar / Spelling",
         "group": "Continue"
       },
       {
-        "command": "continue.codebaseForceReIndex",
+        "command": "godcode.codebaseForceReIndex",
         "category": "Continue",
         "title": "Codebase Force Re-Index",
         "group": "Continue"
       },
       {
-        "command": "continue.rebuildCodebaseIndex",
+        "command": "godcode.rebuildCodebaseIndex",
         "category": "Continue",
         "title": "Rebuild codebase index",
         "group": "Continue"
       },
       {
-        "command": "continue.docsIndex",
+        "command": "godcode.docsIndex",
         "category": "Continue",
         "title": "Docs Index",
         "group": "Continue"
       },
       {
-        "command": "continue.docsReIndex",
+        "command": "godcode.docsReIndex",
         "category": "Continue",
         "title": "Docs Force Re-Index",
         "group": "Continue"
       },
       {
-        "command": "continue.focusContinueInput",
+        "command": "godcode.focusContinueInput",
         "category": "Continue",
         "title": "Focus Continue Chat",
         "group": "Continue"
       },
       {
-        "command": "continue.enterEnterpriseLicenseKey",
+        "command": "godcode.enterEnterpriseLicenseKey",
         "category": "Continue",
         "title": "Enter Enterprise License Key",
         "group": "Continue"
       },
       {
-        "command": "continue.toggleNextEditEnabled",
+        "command": "godcode.toggleNextEditEnabled",
         "title": "Continue: Toggle Next Edit"
       },
       {
-        "command": "continue.nextEditWindow.hideNextEditSuggestion",
+        "command": "godcode.nextEditWindow.hideNextEditSuggestion",
         "category": "Continue",
         "title": "Hide Next Edit Suggestion"
       },
       {
-        "command": "continue.nextEditWindow.acceptNextEditSuggestion",
+        "command": "godcode.nextEditWindow.acceptNextEditSuggestion",
         "category": "Continue",
         "title": "Accept Next Edit Suggestion"
       },
       {
-        "command": "continue.forceNextEdit",
+        "command": "godcode.forceNextEdit",
         "category": "Continue",
         "title": "Continue: Force Next Edit"
       },
       {
-        "command": "continue.acceptJump",
+        "command": "godcode.acceptJump",
         "category": "Continue",
         "title": "Continue: Accept Jump Suggestion"
       },
       {
-        "command": "continue.rejectJump",
+        "command": "godcode.rejectJump",
         "category": "Continue",
         "title": "Continue: Reject Jump Suggestion"
       },
       {
-        "command": "continue.generateRule",
+        "command": "godcode.generateRule",
         "category": "Continue",
         "title": "Generate Rule",
         "group": "Continue"
       },
       {
-        "command": "continue.openInNewWindow",
+        "command": "godcode.openInNewWindow",
         "category": "Continue",
         "title": "Open in new window",
         "group": "Continue"
@@ -386,118 +386,118 @@
     ],
     "keybindings": [
       {
-        "command": "continue.focusContinueInput",
+        "command": "godcode.focusContinueInput",
         "mac": "cmd+l",
         "key": "ctrl+l"
       },
       {
-        "command": "continue.focusContinueInputWithoutClear",
+        "command": "godcode.focusContinueInputWithoutClear",
         "mac": "cmd+shift+l",
         "key": "ctrl+shift+l"
       },
       {
-        "command": "continue.acceptDiff",
+        "command": "godcode.acceptDiff",
         "mac": "shift+cmd+enter",
         "key": "shift+ctrl+enter",
         "when": "continue.diffVisible"
       },
       {
-        "command": "continue.rejectDiff",
+        "command": "godcode.rejectDiff",
         "mac": "shift+cmd+backspace",
         "key": "shift+ctrl+backspace",
         "when": "continue.diffVisible"
       },
       {
-        "command": "continue.rejectDiff",
+        "command": "godcode.rejectDiff",
         "mac": "cmd+z",
         "key": "ctrl+z",
         "when": "continue.diffVisible"
       },
       {
-        "command": "continue.quickEditHistoryUp",
+        "command": "godcode.quickEditHistoryUp",
         "mac": "up",
         "key": "up",
         "when": "false && continue.quickEditHistoryFocused"
       },
       {
-        "command": "continue.quickEditHistoryDown",
+        "command": "godcode.quickEditHistoryDown",
         "mac": "down",
         "key": "down",
         "when": "false && continue.quickEditHistoryFocused"
       },
       {
-        "command": "continue.acceptVerticalDiffBlock",
+        "command": "godcode.acceptVerticalDiffBlock",
         "mac": "alt+cmd+y",
         "key": "alt+ctrl+y"
       },
       {
-        "command": "continue.rejectVerticalDiffBlock",
+        "command": "godcode.rejectVerticalDiffBlock",
         "mac": "alt+cmd+n",
         "key": "alt+ctrl+n"
       },
       {
-        "command": "continue.focusEdit",
+        "command": "godcode.focusEdit",
         "title": "Edit code with natural language",
         "mac": "cmd+i",
         "key": "ctrl+i"
       },
       {
-        "command": "continue.exitEditMode",
+        "command": "godcode.exitEditMode",
         "mac": "escape",
         "key": "escape",
         "when": "continue.inEditMode && editorFocus"
       },
       {
-        "command": "continue.debugTerminal",
+        "command": "godcode.debugTerminal",
         "mac": "cmd+shift+r",
         "key": "ctrl+shift+r"
       },
       {
-        "command": "continue.openInNewWindow",
+        "command": "godcode.openInNewWindow",
         "mac": "cmd+k cmd+m",
         "key": "ctrl+k ctrl+m",
         "when": "!terminalFocus"
       },
       {
-        "command": "continue.toggleTabAutocompleteEnabled",
+        "command": "godcode.toggleTabAutocompleteEnabled",
         "mac": "cmd+k cmd+a",
         "key": "ctrl+k ctrl+a",
         "when": "!terminalFocus"
       },
       {
-        "command": "continue.forceAutocomplete",
+        "command": "godcode.forceAutocomplete",
         "key": "ctrl+alt+space",
         "mac": "cmd+alt+space",
         "when": "editorTextFocus && !editorHasSelection && !editorReadOnly && !inSnippetMode"
       },
       {
-        "command": "continue.applyCodeFromChat",
+        "command": "godcode.applyCodeFromChat",
         "mac": "alt+a",
         "key": "alt+a"
       },
       {
-        "command": "continue.toggleNextEditEnabled",
+        "command": "godcode.toggleNextEditEnabled",
         "key": "ctrl+k ctrl+n",
         "mac": "cmd+k cmd+n",
         "when": "editorTextFocus"
       },
       {
-        "command": "continue.nextEditWindow.hideNextEditSuggestion",
+        "command": "godcode.nextEditWindow.hideNextEditSuggestion",
         "key": "escape",
         "when": "editorTextFocus && nextEditWindowActive && !continue.jumpDecorationVisible"
       },
       {
-        "command": "continue.nextEditWindow.acceptNextEditSuggestion",
+        "command": "godcode.nextEditWindow.acceptNextEditSuggestion",
         "key": "tab",
         "when": "editorTextFocus && nextEditWindowActive && !continue.jumpDecorationVisible"
       },
       {
-        "command": "continue.acceptJump",
+        "command": "godcode.acceptJump",
         "key": "tab",
         "when": "editorTextFocus && continue.jumpDecorationVisible"
       },
       {
-        "command": "continue.rejectJump",
+        "command": "godcode.rejectJump",
         "key": "escape",
         "when": "editorTextFocus && continue.jumpDecorationVisible"
       }
@@ -511,25 +511,25 @@
     "menus": {
       "commandPalette": [
         {
-          "command": "continue.focusContinueInput"
+          "command": "godcode.focusContinueInput"
         },
         {
-          "command": "continue.focusContinueInputWithoutClear"
+          "command": "godcode.focusContinueInputWithoutClear"
         },
         {
-          "command": "continue.debugTerminal"
+          "command": "godcode.debugTerminal"
         },
         {
-          "command": "continue.newSession"
+          "command": "godcode.newSession"
         },
         {
-          "command": "continue.enterEnterpriseLicenseKey"
+          "command": "godcode.enterEnterpriseLicenseKey"
         },
         {
-          "command": "continue.generateRule"
+          "command": "godcode.generateRule"
         },
         {
-          "command": "continue.openInNewWindow"
+          "command": "godcode.openInNewWindow"
         }
       ],
       "editor/context": [
@@ -540,65 +540,65 @@
       ],
       "editor/title/run": [
         {
-          "command": "continue.rejectDiff",
+          "command": "godcode.rejectDiff",
           "group": "Continue",
           "when": "continue.streamingDiff"
         }
       ],
       "continue.continueSubMenu": [
         {
-          "command": "continue.focusContinueInputWithoutClear",
+          "command": "godcode.focusContinueInputWithoutClear",
           "group": "Continue"
         },
         {
-          "command": "continue.focusEdit",
+          "command": "godcode.focusEdit",
           "group": "Continue",
           "when": "!editorReadonly"
         }
       ],
       "explorer/context": [
         {
-          "command": "continue.selectFilesAsContext",
+          "command": "godcode.selectFilesAsContext",
           "group": "1_debug@1"
         }
       ],
       "view/title": [
         {
-          "command": "continue.newSession",
+          "command": "godcode.newSession",
           "group": "navigation@1",
           "when": "view == godcode.continueGUIView"
         },
         {
-          "command": "continue.viewHistory",
+          "command": "godcode.viewHistory",
           "group": "navigation@2",
           "when": "view == godcode.continueGUIView"
         },
         {
-          "command": "continue.openConfigPage",
+          "command": "godcode.openConfigPage",
           "group": "navigation@4",
           "when": "view == godcode.continueGUIView"
         },
         {
-          "command": "continue.clearConsole",
+          "command": "godcode.clearConsole",
           "group": "navigation@1",
           "when": "view == continue.continueConsoleView"
         }
       ],
       "editor/title": [
         {
-          "command": "continue.newSession",
+          "command": "godcode.newSession",
           "group": "navigation@1",
           "when": "activeWebviewPanelId == godcode.continueGUIView"
         },
         {
-          "command": "continue.viewHistory",
+          "command": "godcode.viewHistory",
           "group": "navigation@2",
           "when": "activeWebviewPanelId == godcode.continueGUIView"
         }
       ],
       "terminal/context": [
         {
-          "command": "continue.debugTerminal",
+          "command": "godcode.debugTerminal",
           "group": "navigation@top"
         }
       ]

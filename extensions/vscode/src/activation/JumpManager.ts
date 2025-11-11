@@ -404,7 +404,7 @@ export class JumpManager {
           this._oldCursorPosition &&
           !currentPosition.isEqual(this._oldCursorPosition)
         ) {
-          vscode.commands.executeCommand("continue.rejectJump");
+          vscode.commands.executeCommand("godcode.rejectJump");
         }
       });
 
