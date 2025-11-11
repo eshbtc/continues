@@ -331,12 +331,6 @@
         "group": "Continue"
       },
       {
-        "command": "godcode.focusContinueInput",
-        "category": "Continue",
-        "title": "Focus Continue Chat",
-        "group": "Continue"
-      },
-      {
         "command": "godcode.enterEnterpriseLicenseKey",
         "category": "Continue",
         "title": "Enter Enterprise License Key",
@@ -607,14 +601,14 @@
       "activitybar": [
         {
           "id": "continue",
-          "title": "Continue",
+          "title": "GodCode",
           "icon": "media/sidebar-icon.png"
         }
       ],
       "panel": [
         {
           "id": "continueConsole",
-          "title": "Continue Console",
+          "title": "GodCode Console",
           "icon": "$(window)"
         }
       ]
@@ -624,7 +618,7 @@
         {
           "type": "webview",
           "id": "godcode.continueGUIView",
-          "name": "Continue",
+          "name": "GodCode",
           "icon": "media/sidebar-icon.png",
           "visibility": "visible"
         }
@@ -633,7 +627,7 @@
         {
           "type": "webview",
           "id": "godcode.continueConsoleView",
-          "name": "Continue Console",
+          "name": "GodCode Console",
           "icon": "$(window)",
           "visibility": "visible",
           "when": "config.continue.enableConsole"
