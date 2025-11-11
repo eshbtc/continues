@@ -170,6 +170,19 @@ export default class DocsService {
   static lanceTableName = "docs";
   static sqlitebTableName = "docs";
 
+  // SQL Injection protection: Validate table name is safe (alphanumeric only)
+  private static validateTableName(tableName: string): void {
+    if (!/^[a-zA-Z0-9_]+$/.test(tableName)) {
+      throw new Error(`Invalid table name: ${tableName}`);
+    }
+  }
+
+  static {
+    // Validate static table names on initialization
+    this.validateTableName(this.sqlitebTableName);
+    this.validateTableName(this.lanceTableName);
+  }
+
   static defaultEmbeddingsProvider = new TransformersJsEmbeddingsProvider();
 
   public isInitialized: Promise<void>;

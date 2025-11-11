@@ -4,15 +4,48 @@ import { http, https } from "follow-redirects";
 
 const PROXY_PORT = 65433;
 const app = express();
+
+// Security: Disable X-Powered-By header
+app.disable("x-powered-by");
+
 app.use(cors());
+
+// Allowed protocols for SSRF protection
+const ALLOWED_PROTOCOLS = ["http:", "https:"];
+
+// Optional: Add allowed hosts whitelist for additional security
+// const ALLOWED_HOSTS = ["api.example.com", "localhost", "127.0.0.1"];
 
 app.use((req, res, next) => {
   // Proxy the request
   const { origin, host, ...headers } = req.headers;
   const url = req.headers["x-continue-url"] as string;
-  const parsedUrl = new URL(url);
-  const protocolString = url.split("://")[0];
-  const protocol = protocolString === "https" ? https : http;
+
+  // SSRF Protection: Validate URL
+  if (!url) {
+    return res.status(400).json({ error: "Missing x-continue-url header" });
+  }
+
+  let parsedUrl: URL;
+  try {
+    parsedUrl = new URL(url);
+  } catch (e) {
+    return res.status(400).json({ error: "Invalid URL format" });
+  }
+
+  // SSRF Protection: Validate protocol
+  if (!ALLOWED_PROTOCOLS.includes(parsedUrl.protocol)) {
+    return res.status(400).json({
+      error: `Protocol not allowed. Allowed protocols: ${ALLOWED_PROTOCOLS.join(", ")}`,
+    });
+  }
+
+  // Optional: Add host whitelist check here if needed
+  // if (ALLOWED_HOSTS && !ALLOWED_HOSTS.includes(parsedUrl.hostname)) {
+  //   return res.status(400).json({ error: "Host not allowed" });
+  // }
+
+  const protocol = parsedUrl.protocol === "https:" ? https : http;
   const proxy = protocol.request(url, {
     method: req.method,
     headers: {

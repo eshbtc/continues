@@ -227,11 +227,14 @@ async function sessionRun(session, inputs) {
  * @private
  */
 function replaceTensors(obj) {
+  // Prototype Pollution Protection: Only process own properties
   for (let prop in obj) {
-    if (obj[prop] instanceof ONNXTensor) {
-      obj[prop] = new Tensor(obj[prop]);
-    } else if (typeof obj[prop] === "object") {
-      replaceTensors(obj[prop]);
+    if (Object.prototype.hasOwnProperty.call(obj, prop)) {
+      if (obj[prop] instanceof ONNXTensor) {
+        obj[prop] = new Tensor(obj[prop]);
+      } else if (typeof obj[prop] === "object" && obj[prop] !== null) {
+        replaceTensors(obj[prop]);
+      }
     }
   }
   return obj;

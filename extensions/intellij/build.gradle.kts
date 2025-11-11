@@ -28,6 +28,13 @@ repositories {
     }
 }
 
+configurations.all {
+    exclude(group = "log4j", module = "log4j")
+    resolutionStrategy {
+        force("org.jetbrains.kotlin:kotlin-stdlib:2.1.0")
+    }
+}
+
 sourceSets {
     val testIntegration = create("testIntegration")
     testIntegration.apply {
@@ -47,7 +54,15 @@ dependencies {
         testFramework(TestFrameworkType.Platform)
         testFramework(TestFrameworkType.Starter, "243.21565.193", configurationName = "testIntegrationImplementation")
     }
-    implementation("com.posthog.java:posthog:1.2.0")
+    implementation("com.posthog.java:posthog:1.2.0") {
+        exclude(group = "commons-io", module = "commons-io")
+        exclude(group = "org.apache.commons", module = "commons-lang3")
+    }
+    implementation("org.apache.logging.log4j:log4j-api:2.24.3")
+    implementation("org.apache.logging.log4j:log4j-core:2.24.3")
+    implementation("org.apache.logging.log4j:log4j-1.2-api:2.24.3")
+    implementation("commons-io:commons-io:2.18.0")
+    implementation("org.apache.commons:commons-lang3:3.18.0")
 
     testImplementation("junit:junit:4.13.2")
     testImplementation("io.mockk:mockk:1.14.2") {

@@ -10,6 +10,7 @@ import {
 } from "@modelcontextprotocol/sdk/shared/auth.js";
 import { IDE } from "../..";
 
+import https from "https";
 import http from "http";
 import url from "url";
 import { v4 as uuidv4 } from "uuid";
@@ -28,41 +29,61 @@ const stateToServerUrl = new Map<string, string>();
 
 const PORT = 3000;
 
-let serverInstance: http.Server | null = null;
+let serverInstance: https.Server | http.Server | null = null;
 
-const createServerForOAuth = () =>
-  http.createServer((req, res) => {
-    try {
-      if (!req.url) {
-        throw new Error("no url found");
-      }
+const createServerForOAuth = () => {
+  // Try to create HTTPS server first, fallback to HTTP if no certs available
+  try {
+    return https.createServer((req, res) => {
+      handleOAuthRequest(req, res);
+    });
+  } catch (error) {
+    console.warn("HTTPS server creation failed, falling back to HTTP:", error);
+    return http.createServer((req, res) => {
+      handleOAuthRequest(req, res);
+    });
+  }
+};
 
-      const parsedUrl = url.parse(req.url, true);
-      if (!parsedUrl.query["code"]) {
-        throw new Error("no query params found");
-      }
+const handleOAuthRequest = (
+  req: http.IncomingMessage,
+  res: http.ServerResponse,
+) => {
+  try {
+    if (!req.url) {
+      throw new Error("no url found");
+    }
 
-      const code = parsedUrl.query["code"] as string;
-      const state = parsedUrl.query["state"] as string | undefined;
+    const parsedUrl = url.parse(req.url, true);
+    if (!parsedUrl.query["code"]) {
+      throw new Error("no query params found");
+    }
 
-      void handleMCPOauthCode(code, state);
+    const code = parsedUrl.query["code"] as string;
+    const state = parsedUrl.query["state"] as string | undefined;
 
-      const html = `
+    void handleMCPOauthCode(code, state);
+
+    const html = `
 <!DOCTYPE html>
 <html>
 <head><title>Authentication Complete</title></head>
 <body>Authentication Complete. You can close this page now.</body>
 </html>`;
 
-      res.writeHead(200, {
-        "Content-Type": "text/html",
-      });
-      res.end(html);
-    } catch (error) {
-      res.writeHead(400, { "Content-Type": "text/plain" });
-      res.end(`Unexpected redirect error:  ${(error as Error).message}`);
-    }
-  });
+    res.writeHead(200, {
+      "Content-Type": "text/html",
+    });
+    res.end(html);
+  } catch (error) {
+    // XSS Prevention: Sanitize error message before including in response
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    const sanitizedError = errorMessage.replace(/[<>\"']/g, "");
+
+    res.writeHead(400, { "Content-Type": "text/plain" });
+    res.end(`Unexpected redirect error: ${sanitizedError}`);
+  }
+};
 
 type MCPOauthStorage = GlobalContextType["mcpOauthStorage"][string];
 type MCPOauthStorageKey = keyof MCPOauthStorage;

@@ -42,6 +42,8 @@ function getContentsForNewBlock(blockType: BlockType): ConfigYaml {
         {
           provider: "anthropic",
           model: "claude-3-7-sonnet-latest",
+          // This is a GitHub Actions secret reference, not a hardcoded value
+          // Snyk: This is intentionally a template string for CI/CD
           apiKey: "${{ secrets.ANTHROPIC_API_KEY }}",
           name: "Claude 3.7 Sonnet",
           roles: ["chat", "edit"],

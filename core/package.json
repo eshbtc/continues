@@ -132,6 +132,9 @@
     "yaml": "^2.4.2",
     "zod": "^3.24.2"
   },
+  "overrides": {
+    "inflight": "file:../packages/inflight"
+  },
   "engine-strict": true,
   "engines": {
     "node": ">=20.19.0"

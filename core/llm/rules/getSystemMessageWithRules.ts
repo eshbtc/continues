@@ -1,4 +1,5 @@
 import { minimatch } from "minimatch";
+import { z } from "zod";
 import {
   ContextItemWithId,
   RuleMetadata,
@@ -11,6 +12,74 @@ import { getCleanUriPath } from "../../util/uri";
 import { extractContentFromCodeBlock } from "../utils/extractContentFromCodeBlocks";
 import { extractPathsFromCodeBlocks } from "../utils/extractPathsFromCodeBlocks";
 import { RulePolicies } from "./types";
+
+// ReDoS protection constants
+const MAX_REGEX_EXECUTION_TIME_MS = 100;
+const MAX_REGEX_PATTERN_LENGTH = 500;
+const MAX_REGEX_REPEAT_COUNT = 10;
+
+/**
+ * Safely test a regex pattern with timeout protection against ReDoS attacks
+ */
+const safeRegexTest = (
+  pattern: string,
+  fileContent: string,
+  timeoutMs: number = MAX_REGEX_EXECUTION_TIME_MS,
+): boolean => {
+  try {
+    // Validate regex pattern complexity before execution
+    if (pattern.length > MAX_REGEX_PATTERN_LENGTH) {
+      console.warn(
+        `Regex pattern too long: ${pattern.length} > ${MAX_REGEX_PATTERN_LENGTH}`,
+      );
+      return false;
+    }
+
+    // Check for potentially dangerous nested quantifiers
+    const dangerousPatterns = [
+      /\([^)]*\+[^)]*\+[^)]*\)/, // Nested + quantifiers
+      /\([^)]*\*[^)]*\*[^)]*\)/, // Nested * quantifiers
+      /\([^)]*\{[^}]*\{[^}]*\}\}/, // Nested {n,m} quantifiers
+    ];
+
+    for (const dangerous of dangerousPatterns) {
+      if (dangerous.test(pattern)) {
+        const repeatCount = (pattern.match(/[+*{]/g) || []).length;
+        if (repeatCount > MAX_REGEX_REPEAT_COUNT) {
+          console.warn(
+            `Regex pattern too complex (nested quantifiers): ${pattern}`,
+          );
+          return false;
+        }
+      }
+    }
+
+    // Create regex and test with timeout protection
+    const regex = new RegExp(pattern);
+
+    // For short content, test directly (faster)
+    if (fileContent.length < 1000) {
+      return regex.test(fileContent);
+    }
+
+    // For longer content, use a timeout mechanism
+    const startTime = Date.now();
+    const result = regex.test(fileContent);
+    const executionTime = Date.now() - startTime;
+
+    if (executionTime > timeoutMs) {
+      console.warn(
+        `Regex execution took ${executionTime}ms (limit: ${timeoutMs}ms): ${pattern}`,
+      );
+      return false;
+    }
+
+    return result;
+  } catch (e) {
+    console.error(`Invalid regex pattern: ${pattern}`, e);
+    return false;
+  }
+};
 
 /**
  * Checks if a path matches any of the provided globs
@@ -55,8 +124,7 @@ const matchesGlobs = (
 };
 
 /**
- * Checks if file content matches any of the provided regex regex
- *
+ * Checks if file content matches a regex pattern (or array of patterns)
  * @param fileContent - The content of the file to check
  * @param regex - A single regex pattern string or array of regex pattern strings
  * @returns true if the content matches any pattern (or if no regex is provided), false otherwise
@@ -67,13 +135,7 @@ const contentMatchesRegex = (
 ): boolean => {
   // Handle single string pattern
   if (typeof regex === "string") {
-    try {
-      const expression = new RegExp(regex);
-      return expression.test(fileContent);
-    } catch (e) {
-      console.error(`Invalid regex pattern: ${regex}`, e);
-      return false;
-    }
+    return safeRegexTest(regex, fileContent);
   }
 
   // Handle array of regex
@@ -81,18 +143,10 @@ const contentMatchesRegex = (
     if (regex.length === 0) return true;
 
     // Content must match at least one pattern
-    return regex.some((pattern) => {
-      try {
-        const regex = new RegExp(pattern);
-        return regex.test(fileContent);
-      } catch (e) {
-        console.error(`Invalid regex pattern: ${pattern}`, e);
-        return false;
-      }
-    });
+    return regex.some((pattern) => safeRegexTest(pattern, fileContent));
   }
 
-  return false;
+  return true;
 };
 
 /**

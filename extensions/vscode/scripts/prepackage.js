@@ -1,5 +1,6 @@
 const fs = require("fs");
 const path = require("path");
+const { execSync } = require("child_process");
 
 const ncp = require("ncp").ncp;
 const { rimrafSync } = require("rimraf");
@@ -27,7 +28,31 @@ if (!fs.existsSync(guiDist)) {
   fs.mkdirSync(guiDist, { recursive: true });
 }
 
+// continueDir is imported from ./utils (line 18)
+
 const skipInstalls = process.env.SKIP_INSTALLS === "true";
+
+// Path Traversal Protection: Validate target parameter
+const validateTarget = (target) => {
+  if (!target) return null;
+
+  // Only allow alphanumeric, dash, and underscore characters
+  // Typical target format: "win32-x64", "darwin-arm64", "linux-x64"
+  if (!/^[a-z0-9_-]+-[a-z0-9_-]+$/i.test(target)) {
+    throw new Error(
+      `Invalid target format: ${target}. Expected format: platform-arch (e.g., win32-x64)`,
+    );
+  }
+
+  return target;
+};
+
+// Path Traversal Protection: Sanitize path components
+const sanitizePathComponent = (component) => {
+  if (!component) return "";
+  // Remove any path traversal characters and invalid filename characters
+  return component.replace(/[<>:\"/\\|?*\x00-\x1F]/g, "").replace(/\.\./g, "");
+};
 
 // Get the target to package for
 let target = undefined;
@@ -39,7 +64,13 @@ if (args[2] === "--target") {
 let os;
 let arch;
 if (target) {
-  [os, arch] = target.split("-");
+  const validatedTarget = validateTarget(target);
+  if (validatedTarget) {
+    [os, arch] = validatedTarget.split("-");
+    // Sanitize OS and arch to prevent path traversal
+    os = sanitizePathComponent(os);
+    arch = sanitizePathComponent(arch);
+  }
 } else {
   [os, arch] = autodetectPlatformAndArch();
 }
@@ -50,6 +81,7 @@ if (os === "alpine") {
 if (arch === "armhf") {
   arch = "arm64";
 }
+
 target = `${os}-${arch}`;
 console.log("[info] Using target: ", target);
 
@@ -374,20 +406,50 @@ void (async () => {
   console.log(`[info] Copied ${NODE_MODULES_TO_COPY.join(", ")}`);
 
   // Manually copy lancedb .node binary (ncp sometimes misses it)
-  const lancedbBinarySource = `node_modules/@lancedb/vectordb-${target}${isWinTarget ? "-msvc" : ""}${isLinuxTarget ? "-gnu" : ""}/index.node`;
-  const lancedbBinaryDest = `out/node_modules/@lancedb/vectordb-${target}${isWinTarget ? "-msvc" : ""}${isLinuxTarget ? "-gnu" : ""}/index.node`;
+  // Path Traversal Protection: Sanitize path components before constructing paths
+  const lancedbModuleName = sanitizePathComponent(
+    `@lancedb/vectordb-${target}${isWinTarget ? "-msvc" : ""}${isLinuxTarget ? "-gnu" : ""}`,
+  );
+  const lancedbBinarySource = `node_modules/${lancedbModuleName}/index.node`;
+  const lancedbBinaryDest = `out/node_modules/${lancedbModuleName}/index.node`;
+
   if (fs.existsSync(lancedbBinarySource)) {
-    const stats = fs.statSync(lancedbBinarySource);
-    console.log(`[info] Source lancedb binary size: ${(stats.size / 1024 / 1024).toFixed(2)}MB`);
-    
+    let stats = fs.statSync(lancedbBinarySource);
+    if (stats.size === 0) {
+      console.warn(
+        "[warn] LanceDB source binary reported size 0 bytes, retrying after short delay...",
+      );
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      stats = fs.statSync(lancedbBinarySource);
+    }
+    console.log(
+      `[info] Source lancedb binary size: ${(stats.size / 1024 / 1024).toFixed(2)}MB`,
+    );
+
     // Use copyFileSync instead of cpSync for large binary files
     fs.copyFileSync(lancedbBinarySource, lancedbBinaryDest);
-    
-    const destStats = fs.statSync(lancedbBinaryDest);
-    console.log(`[info] Manually copied lancedb binary: ${lancedbBinaryDest} (${(destStats.size / 1024 / 1024).toFixed(2)}MB)`);
-    
+
+    let destStats = fs.statSync(lancedbBinaryDest);
     if (destStats.size === 0) {
-      throw new Error(`Failed to copy lancedb binary - destination file is empty!`);
+      console.warn(
+        "[warn] Copied LanceDB binary reported size 0 bytes, retrying copy after short delay...",
+      );
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      fs.copyFileSync(lancedbBinarySource, lancedbBinaryDest);
+      destStats = fs.statSync(lancedbBinaryDest);
+    }
+    console.log(
+      `[info] Manually copied lancedb binary: ${lancedbBinaryDest} (${(
+        destStats.size /
+        1024 /
+        1024
+      ).toFixed(2)}MB)`,
+    );
+
+    if (destStats.size === 0) {
+      throw new Error(
+        `Failed to copy lancedb binary - destination file is empty!`,
+      );
     }
   } else {
     console.warn(`[warn] LanceDB binary not found at: ${lancedbBinarySource}`);
